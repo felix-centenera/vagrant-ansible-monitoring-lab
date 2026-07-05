@@ -38,7 +38,7 @@ No es necesario tener conocimientos previos de Vagrant, Ansible, Docker, Prometh
 
 Este laboratorio tiene como objetivo introducir al alumno en algunas de las tecnologías más utilizadas actualmente en entornos profesionales de administración de sistemas y DevOps.
 
-A lo largo de cinco prácticas se construirá una pequeña infraestructura completamente reproducible y monitorizada utilizando:
+A lo largo de las prácticas se construirá una pequeña infraestructura completamente reproducible y monitorizada utilizando:
 
 - Vagrant
 - Ansible
@@ -150,22 +150,24 @@ Antes de comenzar el laboratorio es necesario disponer de:
 
 # Guía del laboratorio
 
-El laboratorio está dividido en cinco prácticas independientes que deben realizarse en orden.
+El laboratorio está dividido en seis prácticas independientes que deben realizarse en orden.
+
 
 | Práctica | Descripción |
 |----------|-------------|
 | **01** | [Creación de la infraestructura con Vagrant](docs/01-vagrant.md) |
-| **02** | [Automatización con Ansible](docs/02-ansible.md) |
+| **02** | [Automatización de la configuración con Ansible](docs/02-ansible.md) |
 | **03** | [Instalación de Docker](docs/03-docker.md) |
-| **04** | [Despliegue de Prometheus y Grafana](docs/04-monitoring.md) |
+| **04** | [Despliegue de la plataforma de monitorización](docs/04-monitoring.md) |
 | **05** | [Configuración de Grafana](docs/05-grafana.md) |
+| **06** | [Reiniciar el laboratorio](docs/06-reset-lab.md) |
 
 Cada práctica explica:
 
-- Los conceptos teóricos necesarios.
-- Los comandos que deben ejecutarse.
-- El resultado esperado.
-- Las comprobaciones para verificar que todo funciona correctamente.
+- Una introducción a los conceptos fundamentales.
+- Los comandos necesarios para completar la actividad.
+- Explicaciones de las acciones realizadas.
+- Comprobaciones para verificar el resultado esperado.
 
 ---
 
