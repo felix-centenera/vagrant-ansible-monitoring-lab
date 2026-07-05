@@ -27,12 +27,12 @@
               volumes:
                 - '/:/host:ro,rslave'
 
+
     - name: Arrancar node-exporter
-      ansible.builtin.command:
-        cmd: docker compose up -d
+      command: docker compose up -d
+      args:
         chdir: /opt/node-exporter
       changed_when: false
-
 
 - name: Desplegar Prometheus y Grafana en nodo de monitorización
   hosts: monitoring
@@ -88,7 +88,7 @@
                 - "3000:3000"
 
     - name: Arrancar Prometheus y Grafana
-      ansible.builtin.command:
-        cmd: docker compose up -d
+      command: docker compose up -d
+      args:
         chdir: /opt/monitoring
       changed_when: false
