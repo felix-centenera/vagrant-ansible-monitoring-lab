@@ -180,7 +180,7 @@ http://192.168.56.11:9090
 
 Deberá mostrarse la página principal de Prometheus.
 
-> **Captura sugerida:** `images/prometheus1.png`
+> ![Data Sources](../imgDoc/1prometheus.png)
 
 ---
 
