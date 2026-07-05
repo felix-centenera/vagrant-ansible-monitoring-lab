@@ -176,11 +176,6 @@ Seleccionar dicho fichero.
 
 ![Seleccionar Dashboard](../imgDoc/9grafana-upload-dashboard.png)
 
-Una vez cargado, pulsar:
-
-```text
-Load
-```
 
 > **Figura 10.** Confirmación de la importación.
 
