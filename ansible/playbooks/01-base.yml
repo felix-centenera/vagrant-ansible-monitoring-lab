@@ -53,9 +53,9 @@
           Rol de la máquina:
           {{ group_names | join(', ') }}
 
+
     - name: Obtener hostname
-      ansible.builtin.command:
-        cmd: hostname
+      ansible.builtin.command: hostname
       register: hostname_result
       changed_when: false
 
