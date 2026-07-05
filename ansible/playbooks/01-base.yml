@@ -52,13 +52,6 @@
 
           Rol de la máquina:
           {{ group_names | join(', ') }}
-
-
-    - name: Obtener hostname
-      ansible.builtin.command: hostname
-      register: hostname_result
-      changed_when: false
-
     - name: Mostrar hostname
-      ansible.builtin.debug:
-        msg: "Host configurado: {{ hostname_result.stdout }}"
+      debug:
+        msg: "Host configurado: {{ ansible_hostname }}"
