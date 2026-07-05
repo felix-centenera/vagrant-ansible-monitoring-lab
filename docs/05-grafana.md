@@ -265,15 +265,32 @@ Dashboard
 
 ---
 
-# Laboratorio completado
+# Laboratorio operativo
 
-En este punto disponemos de una infraestructura completamente funcional formada por:
+En este punto el laboratorio se encuentra completamente desplegado y operativo.
 
-- Dos máquinas virtuales Ubuntu creadas con Vagrant.
-- Configuración automatizada mediante Ansible.
-- Docker instalado en ambos nodos.
-- Node Exporter desplegado en cada servidor.
-- Prometheus recopilando las métricas.
-- Grafana mostrando dashboards interactivos.
+A lo largo de las cinco primeras prácticas hemos construido una pequeña infraestructura moderna partiendo desde cero, aplicando los mismos principios utilizados en numerosos entornos profesionales de Administración de Sistemas y DevOps.
 
-A partir de este punto el alumno puede continuar ampliando el laboratorio desplegando nuevos servicios o creando dashboards personalizados.
+Actualmente disponemos de:
+
+- Dos máquinas virtuales Ubuntu creadas mediante Infraestructura como Código con Vagrant.
+- Configuración completamente automatizada utilizando Ansible.
+- Docker instalado y configurado en ambos servidores.
+- Node Exporter desplegado para la recopilación de métricas del sistema.
+- Prometheus centralizando la monitorización de ambos nodos.
+- Grafana mostrando dashboards interactivos con información en tiempo real.
+
+Más allá de las herramientas utilizadas, el objetivo de este laboratorio ha sido comprender cómo se integran todas ellas para construir infraestructuras reproducibles, automatizadas y fácilmente mantenibles.
+
+---
+
+## Finalizar esta práctica
+
+Volver a la raíz del repositorio:
+
+```bash
+cd ..
+```
+
+
+En la siguiente práctica aprenderemos uno de los principios fundamentales de la Infraestructura como Código: destruir y reconstruir el laboratorio completo de forma segura, verificando que todo el entorno puede desplegarse nuevamente desde cero sin necesidad de realizar configuraciones manuales.

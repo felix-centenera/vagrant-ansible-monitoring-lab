@@ -25,6 +25,20 @@ Resultado esperado:
 ==> so-lab-node-02: Attempting graceful shutdown...
 ```
 
+```bash
+vagrant status
+```
+
+Resultado esperado:
+
+```text
+Current machine states:
+
+so-lab-node-01            poweroff (virtualbox)
+so-lab-node-02            poweroff (virtualbox)
+```
+
+
 Las máquinas permanecerán creadas y podrán volver a arrancarse posteriormente mediante:
 
 ```bash
