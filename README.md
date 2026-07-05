@@ -98,6 +98,61 @@ Además, todo el laboratorio puede destruirse y volver a desplegarse tantas vece
 
 ---
 
+# Arquitectura del laboratorio
+
+```mermaid
+flowchart TB
+    user["Equipo del alumno"]
+
+    subgraph tools["Herramientas locales"]
+        vagrant["Vagrant"]
+        ansible["Ansible"]
+    end
+
+    subgraph hypervisor["VirtualBox / Hypervisor"]
+        node01["node01<br/>Ubuntu Server<br/>Monitoring"]
+        node02["node02<br/>Ubuntu Server<br/>Worker"]
+    end
+
+    subgraph node01_services["Servicios en node01"]
+        docker01["Docker"]
+        nodeexporter01["Node Exporter"]
+        prometheus["Prometheus"]
+        grafana["Grafana"]
+    end
+
+    subgraph node02_services["Servicios en node02"]
+        docker02["Docker"]
+        nodeexporter02["Node Exporter"]
+    end
+
+    user --> vagrant
+    user --> ansible
+
+    vagrant --> node01
+    vagrant --> node02
+
+    ansible --> node01
+    ansible --> node02
+
+    node01 --> docker01
+    node02 --> docker02
+
+    docker01 --> nodeexporter01
+    docker01 --> prometheus
+    docker01 --> grafana
+
+    docker02 --> nodeexporter02
+
+    prometheus --> nodeexporter01
+    prometheus --> nodeexporter02
+
+    grafana --> prometheus
+```
+
+
+---
+
 # Tecnologías utilizadas
 
 | Tecnología | Función |
