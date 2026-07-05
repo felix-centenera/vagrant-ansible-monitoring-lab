@@ -1,5 +1,10 @@
-
 # Laboratorio de Administración Moderna de Sistemas Linux
+
+![Platform](https://img.shields.io/badge/Platform-Linux-blue)
+![Vagrant](https://img.shields.io/badge/Vagrant-2.4.3-1868F2)
+![VirtualBox](https://img.shields.io/badge/VirtualBox-7.1.12-2F61B4)
+![Ansible](https://img.shields.io/badge/Ansible-2.9+-EE0000)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ### Automatización de infraestructuras mediante Vagrant, Ansible, Docker, Prometheus y Grafana
 
@@ -108,13 +113,32 @@ Además, todo el laboratorio puede destruirse y volver a desplegarse tantas vece
 
 # Requisitos
 
-Antes de comenzar el laboratorio es necesario disponer de:
+Para realizar este laboratorio es necesario disponer de las siguientes herramientas instaladas en el equipo anfitrión:
 
-- Git
-- VirtualBox
-- Vagrant
-- Ansible
-- Un sistema Linux (Ubuntu recomendado)
+| Herramienta | Descripción |
+|------------|-------------|
+| Git | Descarga del repositorio y control de versiones. |
+| VirtualBox | Hipervisor utilizado para ejecutar las máquinas virtuales. |
+| Vagrant | Creación y gestión de la infraestructura virtual. |
+| Ansible | Automatización de la configuración de los servidores. |
+
+> **Nota:** Docker **no necesita estar instalado en el equipo anfitrión**, ya que será instalado automá
+
+---
+
+## Versiones utilizadas durante la validación
+
+Este laboratorio ha sido probado con las siguientes versiones:
+
+| Herramienta | Versión |
+|------------|----------|
+| Vagrant | 2.4.3 |
+| VirtualBox | 7.1.12 |
+| Ansible | 2.9.6 |
+| Ubuntu Base Box | ubuntu/jammy64 |
+
+No es necesario instalar plugins adicionales de Vagrant.
+
 
 ---
 
