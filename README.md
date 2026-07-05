@@ -73,33 +73,6 @@ Además, todo el laboratorio puede destruirse y volver a desplegarse tantas vece
 
 # Arquitectura del laboratorio
 
-```text
-                           Equipo del alumno
-                                   │
-                                   │
-                        Vagrant + Ansible
-                                   │
-             ┌─────────────────────┴─────────────────────┐
-             │                                           │
-             ▼                                           ▼
-      Ubuntu Server                              Ubuntu Server
-      node01 (Monitoring)                        node02 (Worker)
-             │                                           │
-             │                               Node Exporter
-             │                                           ▲
-             ▼                                           │
-      Prometheus ─────────────────────────────────────────┘
-             │
-             ▼
-         Grafana
-```
-
-> **Nota:** El repositorio incluye un diagrama de arquitectura que representa esta infraestructura con mayor detalle.
-
----
-
-# Arquitectura del laboratorio
-
 ```mermaid
 flowchart TB
     user["Equipo del alumno"]
@@ -150,6 +123,15 @@ flowchart TB
     grafana --> prometheus
 ```
 
+En esta arquitectura:
+
+- **Vagrant** crea las máquinas virtuales.
+- **VirtualBox** ejecuta dichas máquinas.
+- **Ansible** configura los servidores.
+- **Docker** ejecuta los servicios de monitorización.
+- **Node Exporter** expone métricas de cada nodo.
+- **Prometheus** recopila las métricas.
+- **Grafana** visualiza la información mediante dashboards.
 
 ---
 
