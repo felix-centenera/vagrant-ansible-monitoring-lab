@@ -1,486 +1,271 @@
 
-# Laboratorio de Sistemas Operativos Modernos
+# Laboratorio de Administración Moderna de Sistemas Linux
 
-## Objetivo
-
-El objetivo de este laboratorio es introducir al alumno en los conceptos fundamentales de administración de sistemas modernos, combinando los conocimientos clásicos de sistemas operativos con herramientas de automatización e infraestructura utilizadas actualmente en entornos profesionales.
-
-Durante el laboratorio se recorrerá el ciclo completo de vida de una infraestructura:
-
-1. Creación de máquinas virtuales.
-2. Configuración automática de sistemas.
-3. Instalación de servicios.
-4. Despliegue de contenedores.
-5. Monitorización y observabilidad.
-
-Al finalizar, el alumno habrá construido una pequeña plataforma completamente automatizada utilizando Vagrant, Ansible, Docker, Prometheus y Grafana.
+### Automatización de infraestructuras mediante Vagrant, Ansible, Docker, Prometheus y Grafana
 
 
-## Arquitectura del laboratorio
-                    Equipo del alumno
-                            |
-              +-------------+-------------+
-              |                           |
-              v                           v
-         Vagrant                     Ansible
-              |                           |
-              |                     Configura
-              |                           |
-              +-------------+-------------+
-                            |
-                            v
 
-          +--------------------------------------+
-          |      VirtualBox / Hypervisor         |
-          +--------------------------------------+
-                    |                 |
-                    |                 |
-                    v                 v
+# Introducción
 
-              +-----------+     +-----------+
-              |  node01   |     |  node02   |
-              | Monitoring|     |  Worker   |
-              +-----------+     +-----------+
-                    |                 |
-                    |                 |
-                    +--------+--------+
-                             |
-                             v
+La administración de sistemas ha evolucionado enormemente durante los últimos años. Si antes era habitual crear servidores manualmente, instalar aplicaciones una a una y configurarlas directamente sobre cada máquina, hoy en día la mayor parte de las infraestructuras se gestionan mediante código, automatización y herramientas que permiten desplegar entornos completos de forma rápida, reproducible y consistente.
 
-                      Node Exporter
+Este laboratorio propone un recorrido práctico por esa evolución.
 
-node01
+A partir de dos máquinas virtuales Ubuntu recién creadas construiremos, paso a paso, una pequeña infraestructura moderna utilizando algunas de las tecnologías más empleadas actualmente en entornos profesionales de Administración de Sistemas y DevOps.
+
+A lo largo de las distintas prácticas aprenderemos a:
+
+- Crear infraestructura mediante **Vagrant**.
+- Automatizar la configuración de servidores con **Ansible**.
+- Desplegar aplicaciones utilizando **Docker**.
+- Monitorizar sistemas con **Prometheus**.
+- Visualizar métricas mediante **Grafana**.
+
+Más que aprender herramientas concretas, el objetivo es comprender cómo todas ellas trabajan conjuntamente para construir infraestructuras reproducibles, automatizadas y fáciles de mantener.
+
+> **Este laboratorio no pretende enseñar únicamente a utilizar Vagrant, Ansible o Docker, sino introducir una forma de trabajar basada en Infraestructura como Código (IaC), automatización y observabilidad, ampliamente utilizada en la administración moderna de sistemas.**
+
+## ¿A quién va dirigido?
+
+Este laboratorio está dirigido a estudiantes de Administración de Sistemas Operativos, Ingeniería Informática y a cualquier persona interesada en dar sus primeros pasos en la automatización de infraestructuras y la monitorización de sistemas Linux.
+
+No es necesario tener conocimientos previos de Vagrant, Ansible, Docker, Prometheus o Grafana. Cada práctica introduce progresivamente los conceptos necesarios para completar el laboratorio y comprender el papel que desempeña cada tecnología dentro de una infraestructura moderna.
+
+
+---
+
+# Objetivo
+
+Este laboratorio tiene como objetivo introducir al alumno en algunas de las tecnologías más utilizadas actualmente en entornos profesionales de administración de sistemas y DevOps.
+
+A lo largo de cinco prácticas se construirá una pequeña infraestructura completamente reproducible y monitorizada utilizando:
+
+- Vagrant
+- Ansible
 - Docker
 - Prometheus
 - Grafana
-- Node Exporter
 
-node02
-- Docker
-- Node Exporter
-###  node01:
-- Docker
-- Prometheus
-- Grafana
-- Node Exporter
+El laboratorio está pensado para ser realizado paso a paso, entendiendo el papel que desempeña cada herramienta dentro de una infraestructura moderna.
 
-### node02:
-- Docker
-- Node Exporter
+---
 
-⸻
+# ¿Qué aprenderás?
 
-## Parte 1 - Infraestructura con Vagrant
+Al finalizar este laboratorio serás capaz de:
 
-Vagrant es una herramienta de Infraestructura como Código orientada a la creación y gestión de máquinas virtuales. Permite describir una infraestructura mediante un fichero de texto (Vagrantfile) y reproducirla tantas veces como sea necesario.
+- Crear máquinas virtuales mediante **Infraestructura como Código (IaC)**.
+- Automatizar la configuración de servidores Linux utilizando **Ansible**.
+- Desplegar aplicaciones mediante **Docker**.
+- Monitorizar sistemas Linux con **Prometheus**.
+- Construir dashboards profesionales utilizando **Grafana**.
+- Comprender cómo se integran todas estas tecnologías en un entorno real.
 
-Antes de herramientas como Vagrant, la creación de laboratorios requería crear las máquinas virtuales manualmente desde VirtualBox o VMware. Con Vagrant, el laboratorio queda definido como código y puede ser compartido, versionado y reconstruido de forma automática.
+Además, todo el laboratorio puede destruirse y volver a desplegarse tantas veces como sea necesario, permitiendo experimentar sin riesgo sobre un entorno completamente aislado.
 
-En este laboratorio, Vagrant será responsable únicamente de la creación de las máquinas virtuales. La configuración interna de los sistemas operativos será responsabilidad de Ansible.
+---
 
-### Objetivo
+# Arquitectura del laboratorio
 
-Aprender a crear máquinas virtuales de forma reproducible utilizando Infraestructura como Código.
-
-En esta fase se desplegarán dos máquinas virtuales Ubuntu con direccionamiento IP estático y preparadas para ser administradas posteriormente mediante Ansible.
-
-### Conceptos aprendidos
-
-* Virtualización
-* Infraestructura como Código
-* Redes privadas
-* SSH
-* Automatización
-
-### Desplegar las máquinas virtuales
-
-```
-vagrant up
+```text
+                           Equipo del alumno
+                                   │
+                                   │
+                        Vagrant + Ansible
+                                   │
+             ┌─────────────────────┴─────────────────────┐
+             │                                           │
+             ▼                                           ▼
+      Ubuntu Server                              Ubuntu Server
+      node01 (Monitoring)                        node02 (Worker)
+             │                                           │
+             │                               Node Exporter
+             │                                           ▲
+             ▼                                           │
+      Prometheus ─────────────────────────────────────────┘
+             │
+             ▼
+         Grafana
 ```
 
-Ver estado de las máquinas
+> **Nota:** El repositorio incluye un diagrama de arquitectura que representa esta infraestructura con mayor detalle.
 
-```
-vagrant status
-```
+---
 
-Acceder a una máquina
+# Tecnologías utilizadas
 
-```
-vagrant ssh so-lab-node-01
-vagrant ssh so-lab-node-02
-```
+| Tecnología | Función |
+|------------|---------|
+| Ubuntu Server 22.04 | Sistema operativo |
+| VirtualBox | Hipervisor |
+| Vagrant | Infraestructura como Código |
+| Ansible | Automatización de configuración |
+| Docker | Contenedores |
+| Prometheus | Recopilación de métricas |
+| Grafana | Visualización y dashboards |
 
-Comprobar configuración SSH
-```
-vagrant ssh-config
-```
+---
 
-⸻
+# Requisitos
 
-## Parte 2 - Automatización con Ansible
+Antes de comenzar el laboratorio es necesario disponer de:
 
-### Objetivo
+- Git
+- VirtualBox
+- Vagrant
+- Ansible
+- Un sistema Linux (Ubuntu recomendado)
 
-Aprender a configurar sistemas Linux de forma automática e idempotente.
+---
 
-Las tareas realizadas incluyen:
+# Estructura del repositorio
 
-* Instalación de paquetes.
-* Creación de usuarios.
-* Gestión de directorios.
-* Configuración del sistema.
-
-### Conceptos aprendidos
-
-* Inventario
-* Playbooks
-* Módulos
-* Idempotencia
-* Automatización
-
-### Ver inventario
-
-```
-ansible-inventory --graph
-```
-
-Comprobar conectividad
-```
-ansible lab -m ping
-```
-
-### Ejecutar configuración base
-```
-ansible-playbook playbooks/01-base.yml
-```
-
-⸻
-
-## Parte 3 - Instalación de Docker
-
-### Objetivo
-
-Automatizar la instalación de un motor de contenedores.
-
-Docker permite ejecutar aplicaciones aisladas sin necesidad de desplegar nuevas máquinas virtuales.
-
-### Conceptos aprendidos
-
-* Contenedores
-* Servicios Linux
-* Gestión de grupos
-* Docker Engine
-
-### Ejecutar instalación
-
-```
-ansible-playbook playbooks/02-docker.yml
+```text
+.
+├── Vagrant/
+│   └── Vagrantfile
+│
+├── ansible/
+│   ├── inventory.ini
+│   ├── playbooks/
+│   └── templates/
+│
+├── grafana/
+│   └── dashboards/
+│       └── node-exporter-full.json
+│
+├── imgDoc/
+│
+├── docs/
+│   ├── 01-vagrant.md
+│   ├── 02-ansible.md
+│   ├── 03-docker.md
+│   ├── 04-monitoring.md
+│   └── 05-grafana.md
+│
+└── README.md
 ```
 
-Verificar instalación
-```
-ansible lab -a "docker --version"
-```
+---
 
+# Guía del laboratorio
 
-## Parte 4 - Despliegue Monitorización y Observabilidad
+El laboratorio está dividido en cinco prácticas independientes que deben realizarse en orden.
 
-### Objetivo
+| Práctica | Descripción |
+|----------|-------------|
+| **01** | [Creación de la infraestructura con Vagrant](docs/01-vagrant.md) |
+| **02** | [Automatización con Ansible](docs/02-ansible.md) |
+| **03** | [Instalación de Docker](docs/03-docker.md) |
+| **04** | [Despliegue de Prometheus y Grafana](docs/04-monitoring.md) |
+| **05** | [Configuración de Grafana](docs/05-grafana.md) |
 
-Desplegar una plataforma de monitorización centralizada capaz de recopilar métricas de varios servidores.
+Cada práctica explica:
 
-### Componentes
+- Los conceptos teóricos necesarios.
+- Los comandos que deben ejecutarse.
+- El resultado esperado.
+- Las comprobaciones para verificar que todo funciona correctamente.
 
-#### Node Exporter
+---
 
-Recopila métricas del sistema operativo:
+# Flujo del laboratorio
 
-* CPU
-* Memoria
-* Disco
-* Red
-* Procesos
+A lo largo de las prácticas construiremos progresivamente la siguiente arquitectura:
 
-#### Prometheus
-
-Recopila y almacena las métricas generadas por Node Exporter.
-
-#### Grafana
-
-Permite visualizar las métricas mediante dashboards.
-
-#### Desplegar monitorización
-
-```
-ansible-playbook playbooks/03-monitoring.yml
-```
-
-
-#### Acceso a los servicios
-
-##### Grafana
-
-```
-http://192.168.56.11:3000
-```
-
-Usuario:
-```
-admin
-
-Contraseña:
-
-admin
+```text
+Infraestructura
+      │
+      ▼
+ Vagrant
+      │
+      ▼
+ Máquinas Virtuales
+      │
+      ▼
+ Ansible
+      │
+      ▼
+ Docker
+      │
+      ▼
+ Node Exporter
+      │
+      ▼
+ Prometheus
+      │
+      ▼
+ Grafana
 ```
 
-##### Prometheus
+Cada práctica añade una nueva capa sobre la anterior, reproduciendo el flujo habitual seguido en muchos proyectos reales de administración de sistemas.
 
-```
-http://192.168.56.11:9090
-```
+---
 
-##### Node Exporter
+# Resultado esperado
 
-Node 1:
-```
-http://192.168.56.11:9100
-```
+Al finalizar el laboratorio se dispondrá de:
 
-Node 2:
-```
-http://192.168.56.12:9100
-```
+- Dos servidores Ubuntu completamente configurados.
+- Docker instalado en ambos nodos.
+- Node Exporter desplegado en cada servidor.
+- Prometheus recopilando métricas.
+- Grafana mostrando dashboards de monitorización en tiempo real.
 
-⸻
- 
-## Despliegue completo
+![Dashboard](imgDoc/11grafanaDash1.png)
 
-Si se desea desplegar el laboratorio completo:
-```
-ansible-playbook playbooks/site.yml
-```
+---
 
+# ¿Por qué este laboratorio?
 
+Este proyecto pretende acercar al alumno a un flujo de trabajo muy habitual en entornos profesionales.
 
-## Parte 5  - Configuración Monitorización y Observabilidad
+En lugar de aprender cada herramienta por separado, el laboratorio muestra cómo todas ellas trabajan conjuntamente para construir una infraestructura moderna.
 
-Hasta este punto hemos desplegado los componentes de monitorización mediante Ansible:
+Se trabajan conceptos de:
 
-* Node Exporter
-* Prometheus
-* Grafana
+- Infraestructura como Código (IaC).
+- Automatización.
+- Administración Linux.
+- Contenedores.
+- Observabilidad.
+- Monitorización.
 
-Sin embargo, Grafana todavía no sabe dónde se encuentran las métricas almacenadas por Prometheus. En esta sección realizaremos dicha integración manualmente.
+Todo ello utilizando herramientas Open Source ampliamente implantadas en la industria.
 
+---
 
-### Acceder a Grafana
+# Evolución del laboratorio
 
-Abrir un navegador y acceder a:
-```
-http://192.168.56.11:3000
-```
+Este laboratorio constituye una base sólida para comprender cómo se construyen y administran infraestructuras modernas.
 
-Credenciales iniciales:
+Las tecnologías utilizadas aquí son las mismas que se emplean en proyectos reales, aunque normalmente sustituyendo algunos componentes por soluciones más orientadas a entornos Cloud o de producción.
 
-```
-Usuario: admin
-Contraseña: admin
-```
+Algunos ejemplos de evolución natural serían:
 
-En el primer acceso Grafana solicitará cambiar la contraseña.
+| En este laboratorio | En un entorno profesional |
+|----------------------|---------------------------|
+| VirtualBox | VMware, Proxmox, AWS, Azure o Google Cloud |
+| Vagrant | Terraform, OpenTofu o CloudFormation |
+| Ubuntu Server | Máquinas virtuales o instancias Cloud |
+| Ansible | Ansible AWX, Ansible Automation Platform o pipelines CI/CD |
+| Docker | Kubernetes, OpenShift o Docker Swarm |
+| Prometheus + Grafana | Plataformas completas de observabilidad (Prometheus, Grafana, Loki, Tempo, Mimir, etc.) |
 
+Gracias a esta aproximación, el alumno no solo aprende a utilizar unas herramientas concretas, sino que adquiere una forma de trabajar basada en:
 
-### Verificar Prometheus
+- Infraestructura como Código (IaC).
+- Automatización de sistemas.
+- Configuración declarativa.
+- Contenedores.
+- Observabilidad.
+- Reproducibilidad de entornos.
 
-Antes de configurar Grafana, verificar que Prometheus está funcionando correctamente.
+Muchos de estos conceptos podrán reutilizarse posteriormente para desplegar infraestructuras en proveedores Cloud como AWS, Microsoft Azure o Google Cloud, automatizar clústeres Kubernetes o administrar plataformas empresariales de mayor complejidad.
 
-Acceder a:
-```
-http://192.168.56.11:9090
-```
 
-Seleccionar:
+---
 
-Status -> Targets
+# Licencia
 
-Deberían aparecer los siguientes objetivos en estado UP:
-```
-192.168.56.11:9100
-192.168.56.12:9100
-```
-
-Si ambos aparecen en estado UP, Prometheus está recopilando métricas correctamente.
-
-
-
-### Crear la Data Source de Prometheus
-
-En Grafana:
-
-```
-Connections
-    -> Data Sources
-        -> Add data source
-```
-
-Seleccionar:
-
-```
-Prometheus
-```
-
-Configurar:
-```
-Name: Prometheus
-URL:
-http://prometheus:9090
-```
-
-Pulsar:
-```
-Save & Test
-```
-
-Debería mostrarse el mensaje:
-```
-Data source is working
-```
-
-
-
-### Importar Dashboard de Node Exporter
-
-Grafana permite importar dashboards mediante ficheros JSON.
-
-En este laboratorio se proporciona un dashboard ya preparado dentro del repositorio:
-
-```
-grafana/dashboards/node-exporter-full.json
-```
-
-#### Importar Dashboard
-
-Acceder a Grafana:
-
-http://192.168.56.11:3000
-
-En el menú lateral:
-
-Dashboards
-    -> New
-        -> Import
-
-Arrastrar el fichero:
-
-```
-grafana/dashboards/node-exporter-full.json
-```
-
-o pulsar:
-
-Upload dashboard JSON file
-
-y seleccionarlo manualmente.
-
-Seleccionar Data Source
-
-Durante la importación Grafana solicitará la fuente de datos.
-```
-Seleccionar:
-
-Prometheus
-```
-
-y pulsar:
-```
-Import
-
-Validación
-```
-
-Una vez importado el dashboard deberían visualizarse métricas de los dos nodos del laboratorio:
-
-node01
-node02
-
-Entre otras:
-
-* CPU
-* Memoria
-* Disco
-* Red
-* Load Average
-* Filesystem
-* Procesos
-
-Si las gráficas muestran información para ambos nodos, la integración entre Node Exporter, Prometheus y Grafana se ha realizado correctamente.
-
-
-### Validar la monitorización
-
-Una vez importado el dashboard deberían visualizarse métricas de:
-
-* CPU
-* Memoria
-* Load Average
-* Disco
-* Filesystem
-* Red
-* Procesos
-
-Tanto para:
-
-node01
-node02
-
-
-
-Ejercicio Propuesto
-
-Investigar las siguientes métricas:
-
-1. ¿Qué porcentaje de CPU consume cada nodo?
-2. ¿Cuánta memoria libre tiene cada servidor?
-3. ¿Qué filesystem presenta mayor ocupación?
-4. ¿Qué ocurre en Grafana al ejecutar un estrés de CPU?
-5. ¿Qué ocurre al detener uno de los Node Exporter?
-
-Documentar los resultados obtenidos.
-
-
-Observa en tiempo real cómo evolucionan las gráficas de CPU en Grafana al ejecutar en un node02:
-
-```
-docker run --rm -it progrium/stress \
-  --cpu 2 \
-  --timeout 60
-```
-
-
-
-
-
-### Retos Propuestos
-
-1. Añadir una tercera máquina virtual al laboratorio.
-2. Incorporar la nueva máquina al inventario Ansible.
-3. Configurar Prometheus para monitorizar el nuevo nodo.
-4. Crear un dashboard personalizado en Grafana.
-5. Desplegar una aplicación Docker propia.
-6. Analizar el consumo de CPU y memoria de dicha aplicación.
-7. Crear un nuevo playbook para desplegar servicios web.
-
-
-
-### Tecnologías Utilizadas
-
-* Vagrant
-* VirtualBox
-* Ubuntu Linux
-* Ansible
-* Docker
-* Prometheus
-* Grafana
-
-Este laboratorio pretende mostrar la evolución desde la administración manual de sistemas hasta los modelos modernos de automatización e Infraestructura como Código utilizados actualmente en entornos empresariales.
+Este proyecto se distribuye bajo licencia **MIT**.
