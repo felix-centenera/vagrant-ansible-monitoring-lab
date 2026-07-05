@@ -1,0 +1,94 @@
+---
+- name: Desplegar node-exporter en todos los nodos
+  hosts: lab
+  become: true
+
+  tasks:
+    - name: Crear directorio node-exporter
+      ansible.builtin.file:
+        path: /opt/node-exporter
+        state: directory
+        mode: "0755"
+
+    - name: Crear docker-compose de node-exporter
+      ansible.builtin.copy:
+        dest: /opt/node-exporter/docker-compose.yml
+        mode: "0644"
+        content: |
+          services:
+            node-exporter:
+              image: prom/node-exporter
+              container_name: node-exporter
+              restart: unless-stopped
+              ports:
+                - "9100:9100"
+              command:
+                - '--path.rootfs=/host'
+              volumes:
+                - '/:/host:ro,rslave'
+
+    - name: Arrancar node-exporter
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: /opt/node-exporter
+      changed_when: false
+
+
+- name: Desplegar Prometheus y Grafana en nodo de monitorización
+  hosts: monitoring
+  become: true
+
+  tasks:
+    - name: Crear directorio monitoring
+      ansible.builtin.file:
+        path: /opt/monitoring
+        state: directory
+        mode: "0755"
+
+    - name: Crear configuración Prometheus
+      ansible.builtin.copy:
+        dest: /opt/monitoring/prometheus.yml
+        mode: "0644"
+        content: |
+          global:
+            scrape_interval: 15s
+
+          scrape_configs:
+            - job_name: prometheus
+              static_configs:
+                - targets:
+                    - localhost:9090
+
+            - job_name: node-exporter
+              static_configs:
+                - targets:
+                    - 192.168.56.11:9100
+                    - 192.168.56.12:9100
+
+    - name: Crear docker-compose de Prometheus y Grafana
+      ansible.builtin.copy:
+        dest: /opt/monitoring/docker-compose.yml
+        mode: "0644"
+        content: |
+          services:
+            prometheus:
+              image: prom/prometheus
+              container_name: prometheus
+              restart: unless-stopped
+              ports:
+                - "9090:9090"
+              volumes:
+                - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+            grafana:
+              image: grafana/grafana
+              container_name: grafana
+              restart: unless-stopped
+              ports:
+                - "3000:3000"
+
+    - name: Arrancar Prometheus y Grafana
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: /opt/monitoring
+      changed_when: false

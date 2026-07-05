@@ -1,0 +1,34 @@
+---
+- name: Instalación de Docker
+  hosts: lab
+  become: true
+
+  tasks:
+    - name: Instalar Docker y Docker Compose
+      ansible.builtin.apt:
+        name:
+          - docker.io
+          - docker-compose-v2
+        state: present
+        update_cache: true
+
+    - name: Arrancar Docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Añadir usuario vagrant al grupo docker
+      ansible.builtin.user:
+        name: vagrant
+        groups: docker
+        append: true
+
+    - name: Comprobar versión Docker
+      ansible.builtin.command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - name: Mostrar versión Docker
+      ansible.builtin.debug:
+        msg: "{{ docker_version.stdout }}"

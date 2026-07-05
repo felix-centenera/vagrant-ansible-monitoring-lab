@@ -1,0 +1,63 @@
+---
+- name: Configuración base de las máquinas del laboratorio
+  hosts: lab
+  become: true
+
+  tasks:
+    - name: Actualizar caché de paquetes
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Instalar paquetes básicos
+      ansible.builtin.apt:
+        name:
+          - curl
+          - vim
+          - htop
+          - net-tools
+          - tree
+          - git
+          - unzip
+          - python3
+        state: present
+
+    - name: Crear usuario alumno
+      ansible.builtin.user:
+        name: alumno
+        shell: /bin/bash
+        groups: sudo
+        append: true
+        create_home: true
+
+    - name: Crear directorio del laboratorio
+      ansible.builtin.file:
+        path: /opt/sistemas-lab
+        state: directory
+        owner: alumno
+        group: alumno
+        mode: "0755"
+
+    - name: Crear fichero informativo
+      ansible.builtin.copy:
+        dest: /opt/sistemas-lab/README.txt
+        owner: alumno
+        group: alumno
+        mode: "0644"
+        content: |
+          Laboratorio de Sistemas Operativos
+
+          Esta máquina ha sido creada con Vagrant
+          y configurada mediante Ansible.
+
+          Rol de la máquina:
+          {{ group_names | join(', ') }}
+
+    - name: Obtener hostname
+      ansible.builtin.command: hostname
+      register: hostname_result
+      changed_when: false
+
+    - name: Mostrar hostname
+      ansible.builtin.debug:
+        msg: "Host configurado: {{ hostname_result.stdout }}"
