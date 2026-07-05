@@ -1,9 +1,10 @@
 # Laboratorio de Administración Moderna de Sistemas Linux
 
 ![Platform](https://img.shields.io/badge/Platform-Linux-blue)
-![Vagrant](https://img.shields.io/badge/Vagrant-2.4.3-1868F2)
-![VirtualBox](https://img.shields.io/badge/VirtualBox-7.1.12-2F61B4)
-![Ansible](https://img.shields.io/badge/Ansible-2.9+-EE0000)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04-E95420)
+![Vagrant](https://img.shields.io/badge/Vagrant-2.4%2B-1868F2)
+![VirtualBox](https://img.shields.io/badge/VirtualBox-7.x-2F61B4)
+![Ansible](https://img.shields.io/badge/Ansible-2.9%2B-EE0000)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ### Automatización de infraestructuras mediante Vagrant, Ansible, Docker, Prometheus y Grafana
