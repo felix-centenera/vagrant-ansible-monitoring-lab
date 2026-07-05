@@ -330,6 +330,14 @@ Muchos de estos conceptos podrán reutilizarse posteriormente para desplegar inf
 
 ---
 
+# Autor
+
+**Félix Centenera**
+
+Proyecto desarrollado como propuesta de laboratorio para la asignatura de Ampliación de Sistemas Operativos, con el objetivo de introducir a los estudiantes en conceptos de Infraestructura como Código, automatización, contenedores y observabilidad mediante herramientas Open Source.
+
+---
+
 # Licencia
 
 Este proyecto se distribuye bajo licencia **MIT**.
