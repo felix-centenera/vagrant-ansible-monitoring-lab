@@ -54,7 +54,8 @@
           {{ group_names | join(', ') }}
 
     - name: Obtener hostname
-      ansible.builtin.command: hostname
+      ansible.builtin.command:
+        cmd: hostname
       register: hostname_result
       changed_when: false
 
