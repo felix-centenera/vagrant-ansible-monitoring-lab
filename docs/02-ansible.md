@@ -233,3 +233,7 @@ cd ..
 ```
 
 En la siguiente práctica instalaremos **Docker** automáticamente sobre ambos servidores utilizando un nuevo Playbook de Ansible.
+
+| Práctica | Descripción |
+|----------|-------------|
+| **03** | [Instalación de Docker](03-docker.md) |

@@ -294,3 +294,7 @@ cd ..
 
 
 En la siguiente práctica aprenderemos uno de los principios fundamentales de la Infraestructura como Código: destruir y reconstruir el laboratorio completo de forma segura, verificando que todo el entorno puede desplegarse nuevamente desde cero sin necesidad de realizar configuraciones manuales.
+
+| Práctica | Descripción |
+|----------|-------------|
+| **06** | [Reiniciar el laboratorio](06-reset-lab.md) |

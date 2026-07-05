@@ -190,3 +190,7 @@ cd ..
 ```
 
 En la siguiente práctica desplegaremos la plataforma de monitorización utilizando Docker sobre las máquinas configuradas.
+
+| Práctica | Descripción |
+|----------|-------------|
+| **04** | [Despliegue de la plataforma de monitorización](04-monitoring.md) |

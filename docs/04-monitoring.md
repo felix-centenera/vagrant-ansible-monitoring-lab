@@ -247,3 +247,7 @@ cd ..
 ```
 
 En la siguiente práctica conectaremos Grafana con Prometheus e importaremos un dashboard para visualizar las métricas de ambos servidores.
+
+| Práctica | Descripción |
+|----------|-------------|
+| **05** | [Configuración de Grafana](05-grafana.md) |
