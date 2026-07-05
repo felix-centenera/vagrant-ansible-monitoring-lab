@@ -50,7 +50,7 @@ En este laboratorio se desplegarán dos máquinas virtuales Ubuntu:
 Desde la raíz del repositorio:
 
 ```bash
-cd vagrant
+cd Vagrant
 ```
 
 ---
