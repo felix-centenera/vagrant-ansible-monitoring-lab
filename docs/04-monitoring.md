@@ -200,7 +200,7 @@ Deberán aparecer dos objetivos en estado **UP**.
 
 Si ambos aparecen en estado **UP**, Prometheus está recopilando correctamente las métricas de ambos servidores.
 
-> **Captura sugerida:** `images/prometheus2.png`
+![Data Sources](../imgDoc/2prometheustargets.png)
 
 ---
 
