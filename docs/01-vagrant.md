@@ -196,3 +196,8 @@ cd ..
 ```
 
 En la siguiente práctica se utilizará **Ansible** para automatizar la configuración de ambas máquinas virtuales.
+
+
+| Práctica | Descripción |
+|----------|-------------|
+| **02** | [Automatización de la configuración con Ansible](02-ansible.md) |
