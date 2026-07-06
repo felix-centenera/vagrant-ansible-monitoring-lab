@@ -160,7 +160,7 @@ Para realizar este laboratorio es necesario disponer de las siguientes herramien
 | Vagrant | Creación y gestión de la infraestructura virtual. |
 | Ansible | Automatización de la configuración de los servidores. |
 
-> **Nota:** Docker **no necesita estar instalado en el equipo anfitrión**, ya que será instalado automá
+> **Nota:** Docker **no necesita estar instalado en el equipo anfitrión**, ya que será instalado automáticamente utilizando Ansible en las máquinas virtuales.
 
 ---
 
@@ -203,7 +203,8 @@ No es necesario instalar plugins adicionales de Vagrant.
 │   ├── 02-ansible.md
 │   ├── 03-docker.md
 │   ├── 04-monitoring.md
-│   └── 05-grafana.md
+│   ├── 05-grafana.md
+│   └── 06-reset-lab.md
 │
 └── README.md
 ```
